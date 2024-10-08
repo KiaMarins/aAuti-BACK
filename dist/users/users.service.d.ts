@@ -8,4 +8,5 @@ export declare class UserService {
     create(user: User): Promise<User>;
     update(id: number, user: Partial<User>): Promise<User>;
     remove(id: number): Promise<void>;
+    validateUser(email: string, password: string): Promise<User>;
 }

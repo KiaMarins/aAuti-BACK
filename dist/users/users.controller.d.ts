@@ -6,6 +6,7 @@ export declare class UserController {
     findAll(): Promise<User[]>;
     findOne(id: number): Promise<User>;
     create(user: User): Promise<User>;
+    validateUser(user: Partial<User>): Promise<User>;
     update(id: number, user: Partial<User>): Promise<User>;
     remove(id: number): Promise<void>;
 }

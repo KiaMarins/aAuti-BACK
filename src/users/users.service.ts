@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './users.entity';
 import * as bcrypt from 'bcrypt';
+import { User } from './users.entity';
 
 @Injectable()
 export class UserService {
@@ -22,7 +22,7 @@ export class UserService {
   async create(user: User): Promise<User> {
     const salt = await bcrypt.genSalt();
     user.password = await bcrypt.hash(user.password, salt);
- 
+
     return this.userRepository.save(user);
   }
 
@@ -33,5 +33,19 @@ export class UserService {
 
   async remove(id: number): Promise<void> {
     await this.userRepository.delete(id);
+  }
+
+  async validateUser(email: string, password: string): Promise<User> {
+    const user = await this.userRepository.findOneBy({ email });
+    if (!user) {
+      throw new UnauthorizedException('Credenciais inválidas');
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Credenciais inválidas');
+    }
+
+    return user;
   }
 }

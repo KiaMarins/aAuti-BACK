@@ -21,6 +21,12 @@ export class UserController {
     return this.userService.create(user);
   }
 
+  
+  @Post('/auth')
+  async validateUser(@Body() user: Partial<User>): Promise<User> {
+    return this.userService.validateUser(user.email, user.password);
+  }
+
   @Put(':id')
   async update(@Param('id') id: number, @Body() user: Partial<User>): Promise<User> {
     return this.userService.update(id, user);

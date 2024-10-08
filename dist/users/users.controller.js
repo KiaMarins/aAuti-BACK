@@ -29,6 +29,9 @@ let UserController = class UserController {
     async create(user) {
         return this.userService.create(user);
     }
+    async validateUser(user) {
+        return this.userService.validateUser(user.email, user.password);
+    }
     async update(id, user) {
         return this.userService.update(id, user);
     }
@@ -57,6 +60,13 @@ __decorate([
     __metadata("design:paramtypes", [users_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "create", null);
+__decorate([
+    (0, common_1.Post)('/auth'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "validateUser", null);
 __decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id')),

@@ -16,8 +16,8 @@ exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const users_entity_1 = require("./users.entity");
 const bcrypt = require("bcrypt");
+const users_entity_1 = require("./users.entity");
 let UserService = class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
@@ -39,6 +39,17 @@ let UserService = class UserService {
     }
     async remove(id) {
         await this.userRepository.delete(id);
+    }
+    async validateUser(email, password) {
+        const user = await this.userRepository.findOneBy({ email });
+        if (!user) {
+            throw new common_1.UnauthorizedException('Credenciais inválidas');
+        }
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            throw new common_1.UnauthorizedException('Credenciais inválidas');
+        }
+        return user;
     }
 };
 exports.UserService = UserService;
