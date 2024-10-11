@@ -16,7 +16,7 @@ import { UserController } from './users/users.controller';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'minas',
+      password: 'aluno',
       database: 'autenticacao',
       entities: [User, Posts], // Add your entities here
       synchronize: true, // Auto-create database schema, use cautiously
