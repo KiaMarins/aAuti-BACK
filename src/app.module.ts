@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { PostsController } from './posts/posts.controller';
 import { PostsModule } from './posts/posts.module';
 import { UserController } from './users/users.controller';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -16,12 +17,16 @@ import { UserController } from './users/users.controller';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'aluno',
+      password: 'minas',
       database: 'autenticacao',
-      entities: [User, Posts], // Add your entities here
-      synchronize: true, // Auto-create database schema, use cautiously
+      entities: [User, Posts], 
+      synchronize: true, 
     }),
     UsersModule,
+    JwtModule.register({
+      secret:"apalavrasecreta",
+      signOptions:{ expiresIn: '1h'},
+    }),
     PostsModule,
   ],
   controllers: [AppController,UserController, PostsController],
